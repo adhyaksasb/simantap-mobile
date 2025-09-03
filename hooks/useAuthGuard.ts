@@ -12,7 +12,7 @@ export default function useAuth() {
         const token = await AsyncStorage.getItem("token");
 
         if (!token) {
-          router.replace("/login");
+          router.replace("/(auth)/login");
           return;
         }
 
@@ -21,7 +21,7 @@ export default function useAuth() {
         });
 
         if (!res.ok) {
-          router.replace("/login");
+          router.replace("/(auth)/login");
           return;
         }
 
@@ -29,7 +29,7 @@ export default function useAuth() {
         setUser(data.data);
       } catch (err) {
         console.error("Auth check failed:", err);
-        router.replace("/login");
+        router.replace("/(auth)/login");
       } finally {
         setLoading(false);
       }

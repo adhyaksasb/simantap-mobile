@@ -49,7 +49,7 @@ export default function Home() {
             size="md"
             className="bg-primary-500 px-6 py-2 rounded-full"
             onPress={() => {
-              router.push("/tab1");
+              router.push("/mutasi");
             }}
           >
             <ButtonText>Explore Tab Navigation</ButtonText>
