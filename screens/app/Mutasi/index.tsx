@@ -31,8 +31,6 @@ import { ScrollView } from "react-native";
 export default () => {
   const { user, loading } = useAuth();
 
-  const { colorScheme } = useColorScheme();
-
   const now = new Date();
   const monthYear = now.toLocaleString("en-US", {
     month: "long",
@@ -73,7 +71,6 @@ export default () => {
       console.log(error);
     } finally {
       setIsLoading(false);
-      console.log(transactions);
     }
   };
 
@@ -128,7 +125,7 @@ export default () => {
       </HStack>
       <VStack className="gap-4 mt-2">
         {transactions.map((tx) => (
-          <VStack className="gap-4">
+          <VStack key={tx.id} className="gap-4">
             <HStack className="gap-4 justify-between">
               <Text
                 className="font-semibold text-lg flex-1 flex-wrap"
