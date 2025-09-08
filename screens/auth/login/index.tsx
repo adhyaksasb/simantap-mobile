@@ -71,7 +71,7 @@ export default () => {
           </VStack>
           <VStack space="xs">
             <Text className="text-typography-500">Password</Text>
-            <Input>
+            <Input className="w-full">
               <InputField
                 type={showPassword ? "text" : "password"}
                 placeholder="********"
@@ -79,7 +79,7 @@ export default () => {
                 value={password}
                 onChangeText={setPassword}
               />
-              <InputSlot className="pr-3" onPress={handleState}>
+              <InputSlot onPress={handleState}>
                 <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
               </InputSlot>
             </Input>

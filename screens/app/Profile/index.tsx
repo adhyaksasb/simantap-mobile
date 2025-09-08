@@ -61,7 +61,7 @@ export default () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 p-4">
+    <SafeAreaView className="flex-1 p-4 mt-4">
       <VStack className="mt-4 rounded-lg gap-2">
         <Heading className="font-bold text-3xl">{user.name}</Heading>
         <Text className="font-semibold text-2xl">{user.role}</Text>
@@ -88,6 +88,7 @@ export default () => {
             <Text className="font-semibold text-lg">Keluar Akun</Text>
           </HStack>
         </Pressable>
+        <Divider className="w-full" />
       </VStack>
     </SafeAreaView>
   );

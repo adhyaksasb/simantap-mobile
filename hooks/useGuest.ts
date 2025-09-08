@@ -11,8 +11,14 @@ export default function useGuest() {
         const token = await AsyncStorage.getItem("token");
 
         if (token) {
-          router.replace("/(tabs)/mutasi");
-          return;
+          const res = await fetch("https://simantap-be.laravel.cloud/api/me", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (res.ok) {
+            router.replace("/(tabs)/mutasi");
+            return;
+          }
         }
       } catch (err) {
         console.error("Guest check failed:", err);
