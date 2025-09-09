@@ -1,4 +1,4 @@
-package com.anonymous.simantap
+package com.adhyaksasb.simantap
 
 import android.app.Application
 import android.content.res.Configuration

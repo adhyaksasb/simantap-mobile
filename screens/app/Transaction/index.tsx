@@ -103,6 +103,7 @@ export default () => {
       Alert.alert("Error", "Terjadi masalah koneksi.");
     } finally {
       setIsLoading(false);
+      router.replace("/(tabs)/mutasi");
     }
   };
 

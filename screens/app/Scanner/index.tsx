@@ -45,9 +45,8 @@ export default function Scanner() {
             try {
               const parsed = JSON.parse(data); // 👈 parse QR string to JSON
 
-              // Push to /transaction and send JSON as query string
               router.push({
-                pathname: "/qr-scan/transaction",
+                pathname: "/(noTabs)/transaction",
                 params: { item: JSON.stringify(parsed) },
               });
             } catch (e) {

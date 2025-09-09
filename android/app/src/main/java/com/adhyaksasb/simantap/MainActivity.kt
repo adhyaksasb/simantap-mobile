@@ -1,4 +1,4 @@
-package com.anonymous.simantap
+package com.adhyaksasb.simantap
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

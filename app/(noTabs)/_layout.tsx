@@ -7,6 +7,10 @@ export default function QRScanLayout() {
         name="themePersonalize"
         options={{ title: "Personalisasi Tampilan", headerShown: true }}
       />
+      <Stack.Screen
+        name="transaction"
+        options={{ title: "", headerShown: true }}
+      />
     </Stack>
   );
 }

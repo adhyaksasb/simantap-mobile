@@ -9,9 +9,7 @@ import {
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-import { usePathname, Stack } from "expo-router";
-import { Fab, FabIcon } from "@/components/ui/fab";
-import { MoonIcon, SunIcon } from "@/components/ui/icon";
+import { Stack } from "expo-router";
 import { ThemeContext } from "@/context/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Appearance } from "react-native";
@@ -29,23 +27,24 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) SplashScreen.hideAsync();
+    if (loaded) {
+      const timer = setTimeout(() => {
+        SplashScreen.hideAsync();
+      }, 1500); // keep splash for at least 1.5s
+      return () => clearTimeout(timer);
+    }
   }, [loaded]);
 
   return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
-  const pathname = usePathname();
-
-  // User preference: "light" | "dark" | "system"
   const [colorMode, setColorMode] = useState<"light" | "dark" | "system">(
     "light"
   );
   const [resolvedMode, setResolvedMode] = useState<"light" | "dark">("light");
   const [isReady, setIsReady] = useState(false);
 
-  // Load stored preference on mount
   useEffect(() => {
     (async () => {
       const stored = await AsyncStorage.getItem("theme");
@@ -56,14 +55,12 @@ function RootLayoutNav() {
     })();
   }, []);
 
-  // Save user preference
   useEffect(() => {
     if (isReady) {
       AsyncStorage.setItem("theme", colorMode);
     }
   }, [colorMode, isReady]);
 
-  // Keep resolvedMode in sync
   useEffect(() => {
     function updateResolved(scheme?: Appearance.AppearancePreferences) {
       if (colorMode === "system") {

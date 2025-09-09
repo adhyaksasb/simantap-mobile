@@ -4,10 +4,6 @@ import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import useAuth from "@/hooks/useAuthGuard";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useColorScheme } from "nativewind";
-import { Pressable } from "@/components/ui/pressable";
 import months from "./months";
 
 import {
@@ -23,10 +19,11 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { ChevronDownIcon } from "@/components/ui/icon";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Transaction } from "./transactions";
 import { ScrollView } from "react-native";
+import { useFocusEffect } from "expo-router";
 
 export default () => {
   const { user, loading } = useAuth();
@@ -38,9 +35,7 @@ export default () => {
   });
 
   const [selectedMonth, setSelectedMonth] = useState(monthYear);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const filterMonth = async (month: string) => {
@@ -48,8 +43,8 @@ export default () => {
     setSelectedMonth(month);
 
     const encodedMonth = encodeURIComponent(month);
-
     const token = await AsyncStorage.getItem("token");
+
     try {
       const res = await fetch(
         `https://simantap-be.laravel.cloud/api/get/transactions/user?month=${encodedMonth}`,
@@ -61,11 +56,10 @@ export default () => {
           },
         }
       );
-      const apiResult = await res.json();
 
-      if (!res.ok) {
-        return;
-      }
+      const apiResult = await res.json();
+      if (!res.ok) return;
+
       setTransactions(apiResult.data);
     } catch (error) {
       console.log(error);
@@ -74,17 +68,15 @@ export default () => {
     }
   };
 
-  useEffect(() => {
-    filterMonth(selectedMonth); // ✅ run on start
-  }, []);
+  // ✅ Re-run fetch every time this screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      filterMonth(selectedMonth);
+    }, [selectedMonth])
+  );
 
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (!user) {
-    return null;
-  }
+  if (loading) return <Text>Loading...</Text>;
+  if (!user) return null;
 
   return (
     <ScrollView className="flex-1 p-4">
@@ -111,7 +103,6 @@ export default () => {
               <SelectDragIndicatorWrapper>
                 <SelectDragIndicator />
               </SelectDragIndicatorWrapper>
-              {/* 🔥 Loop months here */}
               {months.map((month) => (
                 <SelectItem
                   key={month.value}
@@ -129,7 +120,7 @@ export default () => {
             <HStack className="gap-4 justify-between">
               <Text
                 className="font-semibold text-lg flex-1 flex-wrap"
-                numberOfLines={2} // unlimited lines
+                numberOfLines={2}
               >
                 {tx.item_name}
               </Text>
