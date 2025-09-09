@@ -164,11 +164,6 @@ export default () => {
               }}
             />
           </Input>
-          {isInvalid && (
-            <FormControlError>
-              <FormControlErrorText>Minimal stok adalah 1</FormControlErrorText>
-            </FormControlError>
-          )}
           <Button isDisabled={buttonDisabled} onPress={submitMutasi}>
             <ButtonText>{isLoading ? "Loading..." : "Submit"}</ButtonText>
           </Button>
