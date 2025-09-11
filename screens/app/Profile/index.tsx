@@ -12,6 +12,8 @@ import { router } from "expo-router";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { Center } from "@/components/ui/center";
+import { Spinner } from "@/components/ui/spinner";
 
 export default () => {
   const { user, loading } = useAuth();
@@ -57,12 +59,16 @@ export default () => {
   };
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return (
+      <Center className="flex-1">
+        <Spinner size="large" color="grey" />
+      </Center>
+    );
   }
 
   return (
-    <SafeAreaView className="flex-1 p-4 mt-4">
-      <VStack className="mt-4 rounded-lg gap-2">
+    <SafeAreaView className="flex-1 px-4">
+      <VStack className="mt-4 rounded-lg gap-0.5">
         <Heading className="font-bold text-3xl">{user.name}</Heading>
         <Text className="font-semibold text-2xl">{user.role}</Text>
         <Text className="text-xl">{user.division}</Text>

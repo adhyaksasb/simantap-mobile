@@ -5,6 +5,8 @@ import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import useAuth from "@/hooks/useAuthGuard";
 import months from "./months";
+import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { Box } from "@/components/ui/box";
 
 import {
   Select,
@@ -24,6 +26,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Transaction } from "./transactions";
 import { ScrollView } from "react-native";
 import { useFocusEffect } from "expo-router";
+import { Spinner } from "@/components/ui/spinner";
+import { Center } from "@/components/ui/center";
 
 export default () => {
   const { user, loading } = useAuth();
@@ -68,19 +72,23 @@ export default () => {
     }
   };
 
-  // ✅ Re-run fetch every time this screen is focused
   useFocusEffect(
     useCallback(() => {
       filterMonth(selectedMonth);
     }, [selectedMonth])
   );
 
-  if (loading) return <Text>Loading...</Text>;
+  if (isLoading || loading)
+    return (
+      <Center className="flex-1">
+        <Spinner size="large" color="grey" />
+      </Center>
+    );
   if (!user) return null;
 
   return (
-    <ScrollView className="flex-1 p-4">
-      <VStack className="mt-4 rounded-lg gap-2">
+    <ScrollView className="flex-1 mt-4 p-4">
+      <VStack className="mt-4 gap-0.5">
         <Heading className="font-bold text-3xl">{user.name}</Heading>
         <Text className="font-semibold text-2xl">{user.role}</Text>
         <Text className="text-xl">{user.division}</Text>

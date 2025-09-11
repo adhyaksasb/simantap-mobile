@@ -1,4 +1,5 @@
 import { Button, ButtonText } from "@/components/ui/button";
+import { Center } from "@/components/ui/center";
 import { Divider } from "@/components/ui/divider";
 import {
   FormControl,
@@ -7,6 +8,7 @@ import {
 } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import useAuth from "@/hooks/useAuthGuard";
@@ -114,7 +116,11 @@ export default () => {
   }, [loading]);
 
   if (loading || isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <Center className="flex-1">
+        <Spinner size="large" color="grey" />
+      </Center>
+    );
   }
 
   return (
